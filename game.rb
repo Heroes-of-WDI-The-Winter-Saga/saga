@@ -59,8 +59,6 @@ while party["hero"] > 0
 
 
 
-
-
   end
 
   puts "you died fucker"
