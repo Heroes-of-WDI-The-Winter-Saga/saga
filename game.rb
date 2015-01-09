@@ -1,3 +1,4 @@
+# require 'pry'
 
 party = {
   "hero" => [10]
@@ -9,60 +10,65 @@ npc = {
   "name" => ["Tyler","Sean"]
 }
 
-def battle()
-  party = party
-  npc = npc
-  storyX = story
-  
-  while party["hero"][0] > 0 || npc["enemy"][0] > 0
-    p "How will you proceed? (Attack? Cast a spell? or run?)"
-    if gets.chomp.downcase == "attack"
-      if 1+rand(5) == 1
-        p "Your attack missed."
-      else
-        edamage = 2 + rand(3)
-        p "You hit for #{edamage} damage!"
-      end
-      if 1+rand(5) <= 2
-          p "The enemies attack misses!"
-        else
-          hdamage = 1 + rand(3)
-          p "You've been hit for #{hdamage} damage!"
-        end
+def battle(party, npc)
 
-      if gets.chomp.downcase == "run"
-        party["hero"][0] = party["hero"][0] - 2
-        story #should initiate story fuction
-      end
-    else
-      p "That is an inproper command try again."
+  while party["hero"][0] > 0 || npc["enemy"][0] > 0
+    p "How will you proceed? Attack or run?"
+    input = gets.chomp.downcase
+
+    if input == "attack" && 1+rand(5) == 1
+        p "Your attack missed."
+    elsif input == "attack" && 1+rand(5) != 1
+       edamage = 2 + rand(3)
+      p "You hit for #{edamage} damage!"
     end
 
-    party["hero"][0] = party["hero"][0] - hdamage
-    npc["enemy"][0] = npc["enemy"][0] - edamage
+    if input == "attack" && 1+rand(5) <= 2
+      p "The enemies attack misses!"
+    elsif input == "attack" && 1+rand(5) >= 3
+      hdamage = 1 + rand(3)
+      p "You've been hit for #{hdamage} damage!"
+    end
+
+    if input == "run"
+      party["hero"][0] = party["hero"][0] - 2
+      story(party,npc) #should initiate story fuction
+    end
+
+    # if input != "run" || input != "attack"
+    #   p "That is an inproper command try again."
+    #   story(party,npc)
+    # end
+
+    party["hero"][0] = party["hero"][0] - hdamage.to_i
+    npc["enemy"][0] = npc["enemy"][0] - edamage.to_i
     p "You have #{party["hero"][0]} health."
     p "The enemy has #{npc["enemy"][0]} health"
+
+    if npc["enemy"][0] <= 0
+      p "You have defeated the enemy!"
+      story(party, npc)
+    end
+
   end
-  if npc["enemy"][0] <= 0
-    p "You have defeated the enemy!"
-  end
+
 end
 
-def story
-  party = party
-  npc = npc
-  battleX = battle
+def story(party, npc)
+# binding.pry
 
   while party["hero"][0] >= 1
 
     p "A #{npc["name"][0]} is approaching. (Will you \"fight\" or \"flee\")"
 
-    if gets.chomp.downcase == "flee"
+    input = gets.chomp.downcase
+
+    if input == "flee"
       party["hero"]  = party["hero"] - 2
-    end
-    if gets.chomp.downcase == "fight"
-      p "You engauge the enemy!"
-      battleX
+
+    elsif input == "fight"
+      p "You engage the enemy!"
+      battle(party, npc)
     end
   end
   puts "you died fucker"
@@ -73,4 +79,4 @@ p "What is your hero's name?"
 hero = gets.chomp
 p "Welcome #{hero}, prepare for battle."
 
-story
+story(party, npc)
