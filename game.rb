@@ -40,7 +40,9 @@ def battle
     p "You have #{party["hero"]} health."
     p "The enemy has #{npc["enemy"]} health"
   end
-  if 
+  if npc["enemy"] <= 0
+    p "You have defeated the enemy!"
+  end
 end
 
 while party["hero"] > 0
