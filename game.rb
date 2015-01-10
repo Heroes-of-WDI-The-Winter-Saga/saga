@@ -27,7 +27,7 @@ def battle(party, npc)
       if 1+rand(5) == 1
         p "Your attack missed."
       elsif 1+rand(5) != 1
-        edamage = 1 + rand(hstr)
+        edamage = 1 + rand(hstr.to_i)
       end
     elsif input == "block"
       hdef = hdef *2
@@ -49,30 +49,31 @@ def battle(party, npc)
         if 1+rand(5) <= 2
         p "The enemies attack misses!"
         elsif 1+rand(5) >= 3
-          hdamage = 1 + rand(estr)
+          hdamage = 1 + rand(estr.to_i)
         end
       end
     else
       if 1 + rand(2) == 1
-        eblock = edef * 2
+        edef = edef * 2
         p "The enemy is blocking!"
       else
         if 1+rand(5) <= 2
           p "The enemies attack misses!"
         elsif 1+rand(5) >= 3
-          hdamage = 1 + rand(estr)
+          hdamage = 1 + rand(estr.to_i)
         end
       end
 
-      edamage = edamage.to_i - edef.to_i
-          if edamage <= 0
-            p "Your attack failed!"
-            edamage = 0
-          else
-            p "You hit for #{edamage} damage!"
-          end
+      edamage = edamage.to_i - (1 + rand(edef.to_i))
+        if input == "block"
+        elsif edamage <= 0
+          p "Your attack failed!"
+          edamage = 0
+        else
+          p "You hit for #{edamage} damage!"
+        end
 
-      hdamage = hdamage.to_i - hdef.to_i
+      hdamage = hdamage.to_i - (1 + rand(hdef.to_i))
         if hdamage <= 0
           p "The enemies attack has failed!"
           hdamage = 0
@@ -106,6 +107,7 @@ def story(party, npc)
 
     if input == "flee"
       party["hero"][0]  = party["hero"][0] - 2
+      p "you escape but you've taken some damage! Your current health is at #{party["hero"][0]}"
 
     elsif input == "fight"
       p "You engage the enemy!"
