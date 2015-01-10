@@ -63,7 +63,7 @@ def story(party, npc)
 
   while party["hero"][0] >= 1
 
-    p "A #{npc["name"][1+rand(2)]} is approaching. (Will you \"fight\" or \"flee\")"
+    p "A #{npc["name"][1+rand(1)]} is approaching. (Will you \"fight\" or \"flee\")"
 
     input = gets.chomp.downcase
 
