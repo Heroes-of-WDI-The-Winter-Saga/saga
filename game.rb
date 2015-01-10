@@ -44,6 +44,7 @@ def battle(party, npc)
     if npc["enemy"][0] > enemyhp/2
       if 1 + rand(10) == 10
         edef = edef * 2
+        p "The enemy is blocking!"
       else
         if 1+rand(5) <= 2
         p "The enemies attack misses!"
@@ -54,6 +55,7 @@ def battle(party, npc)
     else
       if 1 + rand(2) == 1
         eblock = edef * 2
+        p "The enemy is blocking!"
       else
         if 1+rand(5) <= 2
           p "The enemies attack misses!"
@@ -62,7 +64,7 @@ def battle(party, npc)
         end
       end
 
-      edamage = edamage - edef
+      edamage = edamage.to_i - edef.to_i
           if edamage <= 0
             p "Your attack failed!"
             edamage = 0
@@ -70,17 +72,15 @@ def battle(party, npc)
             p "You hit for #{edamage} damage!"
           end
 
-      hdamage = hdamage - hdef
-          if hdamage <= 0
-            p "The enemies attack has failed!"
-            hdamage = 0
-          else
-            p "You've been hit for #{hdamage} damage!"
-          end
+      hdamage = hdamage.to_i - hdef.to_i
+        if hdamage <= 0
+          p "The enemies attack has failed!"
+          hdamage = 0
+        else
+          p "You've been hit for #{hdamage} damage!"
+        end
+      end
 
-    end
-
-    
     party["hero"][0] = party["hero"][0] - hdamage.to_i
     npc["enemy"][0] = npc["enemy"][0] - edamage.to_i
     p "You have #{party["hero"][0]} health."
@@ -92,9 +92,7 @@ def battle(party, npc)
       npc["enemy"][0] = enemyhp
       story(party, npc)
     end
-
   end
-
 end
 
 def story(party, npc)
@@ -102,7 +100,7 @@ def story(party, npc)
 
   while party["hero"][0] >= 1
 
-    p "A #{npc["name"][1+rand(1)]} is approaching. (Will you \"fight\" or \"flee\")"
+    p "A #{npc["name"][0+rand(2)]} is approaching. (Will you \"fight\" or \"flee\")"
 
     input = gets.chomp.downcase
 
