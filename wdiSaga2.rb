@@ -51,23 +51,23 @@ while hero["health"] > 0
       end
 
       if opponent["health"] > 0
-        puts "the #{opponent["name"]} is attacking"
+        puts "The #{opponent["name"]} is attacking"
         if 1 + rand(5) > 2
           dmg = 1+ rand(3)
           hero["health"] = hero["health"] - dmg
           puts "The #{opponent["name"]} has struck you for #{dmg}"
           puts "#{hero["name"]} has #{hero["health"]} health left"
-        else puts "the #{opponent["name"]} has missed you"
+        else puts "The #{opponent["name"]} has missed you"
         end
+        if hero["health"] > 0
+          p "Do you wish to continue to 'fight', or do you wish to 'flee'?"
+          reply = gets.chomp.downcase
 
-      p "Do you wish to continue to 'fight', or do you wish to 'flee'?"
-      reply = gets.chomp.downcase
-
-      while reply != "fight" && reply != "flee"
-        puts "incorrect reply, fight or flee"
-        reply = gets.chomp.downcase
-      end
-
+          while reply != "fight" && reply != "flee"
+            puts "incorrect reply, fight or flee"
+            reply = gets.chomp.downcase
+          end
+        end
       else puts "You have defeated your opponent."
         hero["lvl"] = hero["lvl"] + 1
         hero["health"] = 10 + hero["lvl"]
