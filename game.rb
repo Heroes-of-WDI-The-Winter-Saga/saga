@@ -44,7 +44,7 @@ def battle(party, npc, cs)
   edef = npc["enemy"][2]
 
   while party["hero"][0] > 0 || npc["enemy"][0] > 0
-    p "How will you proceed? Attack, block or run?"
+    p "How will you proceed? Attack, drink a health potion, block or run?"
     input = gets.chomp.downcase
 
     if input == "attack"
@@ -56,7 +56,7 @@ def battle(party, npc, cs)
     elsif input == "block"
       hdef = hdef *2
       p "You are blocking."
-    elsif input == "potion"
+    elsif input == "potion" || input == "heath potion"
       party["hero"][0] = total hp
     elsif input == "run"
       party["hero"][0] = party["hero"][0] - 2
