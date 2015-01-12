@@ -14,7 +14,7 @@ cs = 0
 
 def death(party, npc, cs)
 
-  p "Oh No! You have died!"
+  p "Oh No #{hero}! You have died!"
   p "You have slayed #{cs} enemies!"
   cs = 0
   party["hero"][0] = 10
