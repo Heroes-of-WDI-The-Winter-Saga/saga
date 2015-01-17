@@ -10,8 +10,31 @@ npc = {
   "name" => ["Tyler","Sean"]
 }
 
-# battle module
-def battle(party, npc)
+cs = 0
+
+def death(party, npc, cs)
+
+  p "Oh No #{hero}! You have died!"
+  p "You have slayed #{cs} enemies!"
+  cs = 0
+  party["hero"][0] = 10
+  party["hero"][1] = 5
+  party["hero"][2] = 5
+  party["enemy"][0] = 6
+  party["enemy"][1] = 4
+  party["enemy"][2] = 4
+  p "Would you like to play again?"
+  input = gets.chomp.downcase
+
+  if input == "yes"
+    story(party, npc)
+  elsif input == "no"
+  else
+    p " that is an incorrect input say either 'yes' or 'no'"
+  end
+end
+
+def battle(party, npc, cs)
 
   # default values
   totalhp = party["hero"][0]
@@ -22,7 +45,8 @@ def battle(party, npc)
   edef = npc["enemy"][2]
 
   while party["hero"][0] > 0 || npc["enemy"][0] > 0
-    p "How will you proceed? Attack, block or run? Potion?"
+    p "How will you proceed? Attack, drink a health potion, block or run?"
+
     input = gets.chomp.downcase
 
     if input == "attack"
@@ -34,12 +58,14 @@ def battle(party, npc)
     elsif input == "block"
       hdef = hdef *2
       p "You are blocking."
+    elsif input == "potion" || input == "heath potion"
+      party["hero"][0] = total hp
     elsif input == "run"
       party["hero"][0] = party["hero"][0] - 2
       p "You escape! You have lost 2 health during your escape!"
-      story(party,npc) #should initiate story fuction
-    elsif input = "potion"
-      party["hero"][0] = 
+
+      story(party,npc, cs) #should initiate story fuction
+
     elsif input != "run" || input != "attack"
       p "That is an inproper command try again."
       # story(party,npc)
@@ -94,17 +120,36 @@ def battle(party, npc)
     p "You have #{party["hero"][0]} health."
     p "The enemy has #{npc["enemy"][0]} health"
 
+    hdef = 5
+    edef = 4
+
     if npc["enemy"][0] <= 0
       p "You have defeated the enemy!"
       party["hero"][0] = totalhp
       npc["enemy"][0] = enemyhp
-      story(party, npc)
+      cs = cs + 1
+      story(party, npc, cs)
+    elsif party["hero"][0] <= 0
+      death(party, npc, cs)
     end
   end
 end
 
-def story(party, npc)
+def story(party, npc, cs)
 # binding.pry
+  
+  if cs % 3 == 0
+    p "Hey you have a point to spend! Put it into health, strength, or defense"
+    input = gets.chomp.downcase
+    if input == "health"
+      party["hero"][0] = party["hero"][0] + 1
+    elsif input == "strength"
+      party["hero"][1] = party["hero"][1] + 1
+    elsif input == "defense"
+      party["hero"][2] = party["hero"][2] + 1
+    end
+  end
+
 
   while party["hero"][0] >= 1
 
@@ -118,10 +163,10 @@ def story(party, npc)
 
     elsif input == "fight"
       p "You engage the enemy!"
-      battle(party, npc)
+      battle(party, npc, cs)
     end
   end
-  puts "you died fucker"
+  death(party, npc, cs)
 end
 
 
@@ -129,4 +174,4 @@ p "What is your hero's name?"
 hero = gets.chomp
 p "Welcome #{hero}, prepare for battle."
 
-story(party, npc)
+story(party, npc, cs)
