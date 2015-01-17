@@ -10,8 +10,10 @@ npc = {
   "name" => ["Tyler","Sean"]
 }
 
+# battle module
 def battle(party, npc)
 
+  # default values
   totalhp = party["hero"][0]
   enemyhp = npc["enemy"][0]
   hstr = party["hero"][1]
@@ -20,7 +22,7 @@ def battle(party, npc)
   edef = npc["enemy"][2]
 
   while party["hero"][0] > 0 || npc["enemy"][0] > 0
-    p "How will you proceed? Attack, block or run?"
+    p "How will you proceed? Attack, block or run? Potion?"
     input = gets.chomp.downcase
 
     if input == "attack"
@@ -36,6 +38,8 @@ def battle(party, npc)
       party["hero"][0] = party["hero"][0] - 2
       p "You escape! You have lost 2 health during your escape!"
       story(party,npc) #should initiate story fuction
+    elsif input = "potion"
+      party["hero"][0] = 
     elsif input != "run" || input != "attack"
       p "That is an inproper command try again."
       # story(party,npc)
@@ -64,6 +68,8 @@ def battle(party, npc)
         end
       end
 
+      # damage calclation to the target
+      # damage is subtracted by a random number rolled between 1 and the defenders defense.
       edamage = edamage.to_i - (1 + rand(edef.to_i))
         if input == "block"
         elsif edamage <= 0
@@ -73,6 +79,7 @@ def battle(party, npc)
           p "You hit for #{edamage} damage!"
         end
 
+      # damage calculation to the hero
       hdamage = hdamage.to_i - (1 + rand(hdef.to_i))
         if hdamage <= 0
           p "The enemies attack has failed!"
