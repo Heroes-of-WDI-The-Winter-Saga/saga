@@ -6,7 +6,8 @@ player_name = gets.chomp
 hero = {
   "lvl" => 1,
   "health" => 10,
-  "name" => player_name
+  "name" => player_name,
+  "potions" => 1
 
 }
 
@@ -22,6 +23,7 @@ while hero["health"] > 0
     }
     return monster
   end
+  
   enemy_names = ["troll", "ogre" , "ninja" , "GA WDI Zelda student" , "guy with a sharp stick" ,
     "thug","snakeman" , "out of control robot" ]
 
@@ -31,7 +33,10 @@ while hero["health"] > 0
   puts "type fight to do battle , type 'flee' to avoid battle and lose two points of health"
   puts "Your hero's health is #{hero["health"]}"
   puts "Your hero's level is #{hero["lvl"]}"
+  p "You have " + hero["potions"].to_s + " potions in your inventory."
+
   reply = gets.chomp.downcase
+
   while reply != "fight" && reply != "flee"
     puts "incorrect reply, fight or flee"
     reply = gets.chomp.downcase
@@ -52,6 +57,7 @@ while hero["health"] > 0
 
       if opponent["health"] > 0
         puts "The #{opponent["name"]} is attacking"
+
         if 1 + rand(5) > 2
           dmg = 1+ rand(3)
           hero["health"] = hero["health"] - dmg
@@ -59,27 +65,42 @@ while hero["health"] > 0
           puts "#{hero["name"]} has #{hero["health"]} health left"
         else puts "The #{opponent["name"]} has missed you"
         end
+
         if hero["health"] > 0
-          p "Do you wish to continue to 'fight', or do you wish to 'flee'?"
+          p "Do you wish to continue to 'fight', 'flee' , or imbibe a 'potion'?"
           reply = gets.chomp.downcase
 
+          if reply == "potion" && hero["potions"] > 0
+            hero["health"] += 5
+            hero["potions"] -= 1
+          end
+
           while reply != "fight" && reply != "flee"
-            puts "incorrect reply, fight or flee"
+            puts "Type fight or flee to continue battle."
             reply = gets.chomp.downcase
           end
+
         end
+
       else puts "You have defeated your opponent."
         hero["lvl"] = hero["lvl"] + 1
         hero["health"] = 10 + hero["lvl"]
         reply = ""
+
+        if 1 + rand(5) == 5
+          hero["potions"] += 1
+          p "You have found a potion."
+        end
+
       end
 
     end
   end
 
+
   if reply == "flee"
      puts "You run to fight another day."
-     if hero["health"] > 2
+     if hero["health"] > hero["lvl"] * 0.5
        hero["health"] = hero["health"] - 2
      end
   end
