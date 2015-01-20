@@ -23,7 +23,7 @@ while hero["health"] > 0
     }
     return monster
   end
-  
+
   enemy_names = ["troll", "ogre" , "ninja" , "GA WDI Zelda student" , "guy with a sharp stick" ,
     "thug","snakeman" , "out of control robot" ]
 
